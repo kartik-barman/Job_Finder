@@ -3,6 +3,8 @@ import NavBar from "../components/NavBar";
 import jobBanner from "../assets/job-illustation.png";
 import Search from "../components/Search";
 import JobList from "./Jobs/JobList";
+import Footer from "../components/Footer";
+import BrowseJobPage from "./BrowseJobPage/BrowseJobPage";
 
 const Home = () => {
   const [gradient, setGradient] = useState("");
@@ -65,7 +67,9 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <JobList />
+      {/* <JobList /> */}
+      <BrowseJobPage />
+      <Footer />
     </>
   );
 };
