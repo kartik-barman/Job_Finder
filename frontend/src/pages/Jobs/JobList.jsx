@@ -16,7 +16,7 @@ const JobList = () => {
 
   const fetchAllJobs = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/jobs/");
+      const res = await axios.get("https://job-finder-one.vercel.app/api/jobs/");
       const data = res.data;
       setJobs(data.jobs); // Set jobs in context
       setLoading(false); // Set loading to false once data is fetched

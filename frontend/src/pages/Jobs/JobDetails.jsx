@@ -20,7 +20,7 @@ const JobDetails = () => {
 
   const fetchJobDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/jobs/${id}`);
+      const res = await axios.get(`https://job-finder-one.vercel.app/api/jobs/${id}`);
       setJob(res.data.job);
     } catch (error) {
       console.log("Error fetching job details:", error);

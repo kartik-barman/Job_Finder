@@ -10,7 +10,7 @@ const Dashboard = () => {
   const fetchAllJobs = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/jobs/get/job/employer/${employerId}`
+        `https://job-finder-one.vercel.app/api/jobs/get/job/employer/${employerId}`
       );
       console.log(res.data.jobs);
       setJobs(res.data.jobs);

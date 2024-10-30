@@ -10,7 +10,7 @@ const ApplicantDetails = () => {
   const fetchCandidates = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/job/application/${jobId}/candidates`
+        `https://job-finder-one.vercel.app/api/job/application/${jobId}/candidates`
       );
       const data = res.data;
       setCandidates(data.candidates);

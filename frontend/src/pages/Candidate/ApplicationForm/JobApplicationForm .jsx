@@ -55,7 +55,7 @@ const JobApplicationForm = () => {
     console.log(data);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/job/application/post-job",
+        "https://job-finder-one.vercel.app/api/job/application/post-job",
         data,
         {
           headers: {
