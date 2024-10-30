@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavBar from "../../../components/NavBar";
 import { Link } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 
 const Dashboard = () => {
   const employerId = localStorage.getItem("userId");
@@ -21,7 +23,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchAllJobs();
-  }, []);
+  }, [employerId]);
 
   return (
     <div style={{ minHeight: "100vh" }}>
@@ -56,8 +58,8 @@ const Dashboard = () => {
                     ₹{job.salary.min}-{job.salary.max}
                   </td>
                   <td>
-                    <button className="btn btn-primary me-2">Edit</button>
-                    <button className="btn btn-danger">Delete</button>
+                    <button className="btn btn-primary me-2"><FaEdit /></button>
+                    <button className="btn btn-danger"><FaTrash /></button>
                   </td>
                 </tr>
               ))

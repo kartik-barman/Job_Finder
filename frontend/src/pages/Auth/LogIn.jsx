@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../../config/axiosConfig"; // Import the configured axios instance
+import axiosInstance from "../../config/axiosConfig"; 
 import { useJobContext } from "../../store/JobContext";
-import { toast } from "react-toastify"; // Import toast
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LogIn = () => {
   const { setIsLoggedIn, setUserRole } = useJobContext();
@@ -78,6 +79,8 @@ const LogIn = () => {
   };
 
   return (
+    <>
+      <ToastContainer />
     <div
       className="min-vh-100 d-flex justify-content-center align-items-center"
       style={{
@@ -192,6 +195,7 @@ const LogIn = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
@@ -10,10 +11,12 @@ const SignUp = () => {
   });
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Form Data:", formData);
-    // Here you can add further logic for handling sign-up, e.g., API calls
+    const res = await axios.post("https://job-finder-one.vercel.app/api/users/create", formData);
+    const data = res.data;
+    console.log(data);
   };
 
   // Update form data based on input changes

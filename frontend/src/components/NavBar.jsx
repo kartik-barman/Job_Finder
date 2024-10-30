@@ -11,14 +11,13 @@ import {
 } from "react-icons/fa";
 import { useJobContext } from "../store/JobContext";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify"; // Import Toast components
-import "react-toastify/dist/ReactToastify.css"; // Import CSS for toast notifications
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NavBar = () => {
   const { isLoggedIn, setIsLoggedIn, userRole, setUserRole } = useJobContext();
   const navigate = useNavigate();
 
-  // Check login status on component mount
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     if (authToken) {
@@ -31,161 +30,132 @@ const NavBar = () => {
   }, [setIsLoggedIn, setUserRole]);
 
   const handleLogOut = () => {
-    localStorage.clear(); // Clears all stored items on logout
+    localStorage.clear();
     setIsLoggedIn(false);
     setUserRole(null);
-    navigate("/"); // Redirect to the home page or login page
+    navigate("/");
   };
 
   const handlePostJobClick = () => {
     if (!isLoggedIn) {
-      toast.info("Please log in to post a job.Only Employer post a job"); // Show toast message
+      toast.info("Please log in to post a job. Only Employer post a job");
       setTimeout(() => {
-        navigate("/login"); // Redirect to the login page after 2 seconds
+        navigate("/login");
       }, 2000);
     } else {
-      navigate("/post-job"); // Redirect to the post job page if logged in
+      navigate("/post-job");
     }
   };
 
   return (
-    <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-transparent">
+    <div className="" >
+      <nav className="navbar navbar-expand-lg navbar-dark py-3">
         <div className="container">
           {/* Brand Logo Section */}
-          <a href="/" className="navbar-brand d-flex align-items-center text-white">
-            <div
-              className="d-flex justify-content-center align-items-center me-2"
-              style={{
-                backgroundColor: "green",
-                borderRadius: "50%",
-                width: "60px",
-                height: "60px",
-              }}
-            >
-              <FaSearch style={{ color: "white", fontSize: "30px" }} />
+          <Link to="/" className="navbar-brand d-flex align-items-center">
+            <div className="d-flex justify-content-center align-items-center me-3 rounded-circle bg-success" 
+                 style={{ 
+                   width: "48px", 
+                   height: "48px",
+                   transition: "transform 0.2s",
+                 }}>
+              <FaSearch className="fs-4 text-white" />
             </div>
             <div>
-              <h3 className="m-0 p-0">JOB FINDER</h3>
-              <p className="m-0 p-0">Find your dream Job</p>
+              <h3 className="fs-4 fw-bold mb-0">JOB FINDER</h3>
+              <p className="small text-light mb-0 opacity-75">Find your dream Job</p>
             </div>
-          </a>
+          </Link>
 
-          {/* Toggler button for mobile view */}
+          {/* Mobile Toggle Button */}
           <button
-            className="navbar-toggler"
+            className="navbar-toggler border-0"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
           >
-            <FaBars style={{ color: "white", fontSize: "24px" }} />
+            <FaBars className="fs-4" />
           </button>
 
-          {/* Navbar Section */}
+          {/* Navigation Links & Buttons */}
           <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto align-items-center gap-3">
-              <li className="nav-item">
-                <Link to="/" className="nav-link text-white">
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="#browse-job" className="nav-link text-white">
-                  Browse Job
-                </a>
-              </li>
-              <li className="nav-item">
-                <a href="#pages" className="nav-link text-white">
-                  Pages
-                </a>
-              </li>
-              <li className="nav-item">
-                <a href="#blog" className="nav-link text-white">
-                  Blog
-                </a>
-              </li>
-              <li className="nav-item">
-                <a href="#contact" className="nav-link text-white">
-                  Contact
-                </a>
-              </li>
+            <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
+              {['Home', 'Browse Job', 'Pages', 'Blog', 'Contact'].map((item) => (
+                <li key={item} className="nav-item px-2">
+                  <Link
+                    to={item === 'Home' ? '/' : `#${item.toLowerCase().replace(' ', '-')}`}
+                    className="nav-link text-white fw-medium"
+                    style={{ fontSize: "1.1rem" }}
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
             </ul>
 
-            {/* Buttons Section */}
-            <div className="d-flex align-items-center">
+            {/* Action Buttons */}
+            <div className="d-flex gap-2 flex-wrap">
               {isLoggedIn ? (
                 <>
-                  {/* Show buttons based on user roles */}
                   {userRole === "employer" && (
                     <>
                       <Link
                         to="/employer/dashboard"
-                        className="btn btn-primary me-2 d-flex align-items-center text-white"
-                        style={{ fontSize: "0.9rem" }}
+                        className="btn btn-primary d-flex align-items-center gap-2 px-3"
                       >
-                        <FaUserTie className="me-1" />
-                        Dashboard
+                        <FaUserTie />
+                        <span>Dashboard</span>
                       </Link>
                       <button
-                        className="btn btn-success me-2 d-flex align-items-center text-white"
-                        style={{ fontSize: "0.9rem" }}
-                        onClick={handlePostJobClick} // Use the new handler
+                        onClick={handlePostJobClick}
+                        className="btn btn-success d-flex align-items-center gap-2 px-3"
                       >
-                        <FaBriefcase className="me-1" />
-                        Add Post
+                        <FaBriefcase />
+                        <span>Add Post</span>
                       </button>
                     </>
                   )}
                   {userRole === "candidate" && (
                     <Link
                       to="/candidate/profile"
-                      className="btn btn-outline-primary me-2 d-flex align-items-center text-white"
-                      style={{ fontSize: "0.9rem" }}
+                      className="btn btn-info text-white d-flex align-items-center gap-2 px-3"
                     >
-                      <FaUser className="me-1" />
-                      Profile
+                      <FaUser />
+                      <span>Profile</span>
                     </Link>
                   )}
                   {userRole === "admin" && (
                     <Link
                       to="/admin/dashboard"
-                      className="btn btn-warning me-2 d-flex align-items-center text-white"
-                      style={{ fontSize: "0.9rem" }}
+                      className="btn btn-warning text-white d-flex align-items-center gap-2 px-3"
                     >
-                      <FaTools className="me-1" />
-                      Admin Panel
+                      <FaTools />
+                      <span>Admin Panel</span>
                     </Link>
                   )}
-                  {/* Logout button visible to all logged-in users */}
                   <button
-                    className="btn btn-danger d-flex align-items-center text-white"
-                    style={{ fontSize: "0.9rem" }}
                     onClick={handleLogOut}
+                    className="btn btn-danger d-flex align-items-center gap-2 px-3"
                   >
-                    <FaSignOutAlt className="me-1" />
-                    Log Out
+                    <FaSignOutAlt />
+                    <span>Log Out</span>
                   </button>
                 </>
               ) : (
                 <>
                   <Link
                     to="/login"
-                    className="btn btn-outline-primary me-2 d-flex align-items-center text-white"
-                    style={{ fontSize: "0.9rem" }}
+                    className="btn btn-outline-light d-flex align-items-center gap-2 px-3"
                   >
-                    <FaSignInAlt className="me-1" />
-                    Log In
+                    <FaSignInAlt />
+                    <span>Log In</span>
                   </Link>
                   <button
-                    className="btn btn-success d-flex align-items-center"
-                    style={{ fontSize: "0.9rem" }}
-                    onClick={handlePostJobClick} // Use the new handler
+                    onClick={handlePostJobClick}
+                    className="btn btn-success d-flex align-items-center gap-2 px-3"
                   >
-                    <FaBriefcase className="me-1" />
-                    Post A Job
+                    <FaBriefcase />
+                    <span>Post A Job</span>
                   </button>
                 </>
               )}
@@ -193,8 +163,8 @@ const NavBar = () => {
           </div>
         </div>
       </nav>
-      <ToastContainer /> {/* Toast Container for notifications */}
-    </>
+      <ToastContainer />
+    </div>
   );
 };
 

@@ -21,7 +21,7 @@ const ApplicantDetails = () => {
 
   useEffect(() => {
     fetchCandidates();
-  }, []);
+  }, [jobId]);
 
   const statusOptions = [
     "applied",
