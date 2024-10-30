@@ -29,7 +29,7 @@ const JobForm = () => {
     console.log(formData);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/jobs/create-job",
+        "https://job-finder-one.vercel.app/api/jobs/create-job",
         formData
       );
       console.log(res.data);

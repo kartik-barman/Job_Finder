@@ -25,7 +25,7 @@ const LogIn = () => {
     setLoading(true); // Start loading
 
     try {
-      const res = await axiosInstance.post("/users/login", formData);
+      const res = await axiosInstance.post("https://job-finder-one.vercel.app/api/users/login ", formData);
       const { success, msg, user, token } = res.data; // Assuming user object contains username, email, and user ID
       console.log("msg : ", msg);
       console.log("user " , user);

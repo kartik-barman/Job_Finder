@@ -19,7 +19,7 @@ const Search = () => {
     try {
       setError(""); // Clear previous error messages
       const res = await axios.get(
-        `http://localhost:5000/api/jobs/search?keyword=${keyword}&location=${location}&type=${category}`
+        `https://job-finder-one.vercel.app/api/jobs/search?keyword=${keyword}&location=${location}&type=${category}`
       );
       const data = await res.data;
       setJobs(data.jobs);
