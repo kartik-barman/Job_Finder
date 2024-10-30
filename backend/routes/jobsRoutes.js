@@ -8,7 +8,7 @@ import {
   getJobByUserId,
   searchJobsApi,
 } from "../controllers/jobsController.js";
-import authMiddleware from "../middleware/AuthMiddleware.js";
+
 
 const jobsRouter = express.Router();
 
