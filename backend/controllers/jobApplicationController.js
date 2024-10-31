@@ -1,3 +1,4 @@
+import { sendApplicationEmail } from "../mailSender/sendApplicationEmail.js";
 import JobApplication from "../models/applicationModel.js";
 
 export const applyJobApi = async (req, res) => {
@@ -54,6 +55,8 @@ export const applyJobApi = async (req, res) => {
     });
 
     const saveApplication = await newApplication.save();
+
+    sendApplicationEmail(email, applicantName, jobTitle, company)
 
     res.status(201).json({
       success: true,
