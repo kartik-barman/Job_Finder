@@ -2,6 +2,8 @@ import JobApplication from "../models/applicationModel.js";
 
 export const applyJobApi = async (req, res) => {
   const {
+    jobTitle,
+    company,
     applicantId,
     jobId,
     email,
@@ -36,6 +38,8 @@ export const applyJobApi = async (req, res) => {
 
     // Create a new job application
     const newApplication = new JobApplication({
+      jobTitle,
+      company,
       applicantId,
       applicantName,
       fatherMotherName,
@@ -88,5 +92,38 @@ export const getApplicantApi = async (req, res) => {
   } catch (error) {
     console.error("Errors: ", error);
     res.status(500).json({ message: "Internal server error." }); 
+  }
+};
+
+
+// Get Appllication Details by UserId
+
+export const userGetApplicationApi = async (req, res) => {
+  const { applicantId } = req.params;
+
+  try {
+    // Find the job application for the given userId
+    const Aplications = await JobApplication.find({applicantId });
+
+    if (!Aplications || Aplications.length === 0) {
+      return res.status(404).json({
+        success: false,
+        msg: "No application found!",
+      });
+    }
+
+   
+    res.status(200).json({
+      success: true,
+      msg: "Application found",
+      application: Aplications, 
+    });
+  } catch (error) {
+    console.error("Error fetching application: ", error);
+    res.status(500).json({
+      success: false,
+      msg: "Internal server error", 
+      error: error.message, 
+    });
   }
 };

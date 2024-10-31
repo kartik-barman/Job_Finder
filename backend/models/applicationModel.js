@@ -2,6 +2,18 @@ import mongoose from "mongoose";
 
 
 const jobApplicationSchema = new mongoose.Schema({
+    jobId: {
+        type: String,
+        required: true
+    },
+    jobTitle : {
+        type : String,
+        required : true
+    },
+    company : {
+        type : String,
+        required : true,
+    },
     applicantId : {
         type : String,
         required : true,
@@ -49,10 +61,6 @@ const jobApplicationSchema = new mongoose.Schema({
     resume: {
         type: Object, 
         // required: true
-    },
-    jobId: {
-        type: String,
-        required: true
     },
     createdAt: {
         type: Date,

@@ -1,79 +1,121 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {
-  FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt,
-  FaBriefcase, FaCalendarAlt, FaMedal,
-  FaCamera
-} from 'react-icons/fa';
-import NavBar from '../../../components/NavBar';
-import Footer from '../../../components/Footer';
+import React, { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { FaUser, FaEnvelope, FaCalendarAlt } from "react-icons/fa";
+import NavBar from "../../../components/NavBar";
+import Footer from "../../../components/Footer";
+import axios from "axios";
 
 const Profile = () => {
+  const userId = localStorage.getItem("userId");
   const username = localStorage.getItem("username");
   const email = localStorage.getItem("email");
-  const [userData] = useState({
-    name: username,
-    title: "Senior Software Engineer",
-    location: "San Francisco, CA",
-    email: email,
-    phone: "+1 (555) 123-4567",
-    avatar: "/api/placeholder/150/150",
-    bio: "Passionate software engineer with 8+ years of experience in full-stack development. Specialized in React, Node.js, and cloud architecture.",
-    applications: [
-      {
-        jobTitle: "Frontend Developer",
-        companyName: "TechCorp Solutions",
-        applyDate: "2024-10-15",
-        status: "Interview Scheduled"
-      },
-      {
-        jobTitle: "Backend Engineer",
-        companyName: "Innovative Solutions",
-        applyDate: "2024-10-20",
-        status: "Pending"
-      },
-      {
-        jobTitle: "Full Stack Developer",
-        companyName: "Global Tech",
-        applyDate: "2024-10-25",
-        status: "Rejected"
+
+  const [applications, setApplications] = useState([]); // State for applications
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getApplications = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/job/application/candidate/application/${userId}`
+        );
+        const result = res.data;
+        console.log("API Response: ", result);
+        if (result.success) {
+          setApplications(result.application); // Set applications to the response array
+        } else {
+          setError(result.msg); // Set error to the response message
+        }
+      } catch (error) {
+        console.error("Error fetching applications: ", error);
+        setError(
+          error.response && error.response.data && error.response.data.msg
+            ? error.response.data.msg
+            : "Failed to load applications. Please try again."
+        );
+      } finally {
+        setLoading(false);
       }
-    ]
-  });
+    };
+
+    getApplications();
+  }, [userId]);
+
+  const userData = {
+    name: username,
+    email: email,
+  };
 
   return (
-    <div style={{ backgroundColor: '#f0f2f5', minHeight: '100vh' }}>
+    <div style={{ backgroundColor: "#f0f2f5", minHeight: "100vh" }}>
       <NavBar />
       <div className="container mt-4">
         {/* User Details Section */}
-        <div className="card mb-4" style={{ borderRadius: '15px', boxShadow: '0 0 20px rgba(0,0,0,0.1)' }}>
+        <div
+          className="card mb-4"
+          style={{
+            borderRadius: "15px",
+            boxShadow: "0 0 20px rgba(0,0,0,0.1)",
+          }}
+        >
           <div className="card-body">
             <h4 className="mb-4">User Details</h4>
-            <p><FaUser className="me-2" /> <strong>{userData.name}</strong></p>
-            <p><FaEnvelope className="me-2" /> {userData.email}</p>
-            {/* <p><FaPhone className="me-2" /> {userData.phone}</p> */}
-            <p>{userData.bio}</p>
+            <p>
+              <FaUser className="me-2" /> <strong>{userData.name}</strong>
+            </p>
+            <p>
+              <FaEnvelope className="me-2" /> {userData.email}
+            </p>
           </div>
         </div>
 
         {/* Job Applications Section */}
         <h4 className="mb-4">Job Applications</h4>
-        <div className="row">
-          {userData.applications.map((application, index) => (
-            <div key={index} className="col-md-4 mb-4">
-              <div className="card" style={{ borderRadius: '15px', boxShadow: '0 0 20px rgba(0,0,0,0.1)' }}>
-                <div className="card-body">
-                  <h5 className="card-title">{application.jobTitle}</h5>
-                  <p className="card-text"><strong>Company:</strong> {application.companyName}</p>
-                  <p className="card-text"><FaCalendarAlt className="me-2" /> <strong>Applied on:</strong> {application.applyDate}</p>
-                  <p className={`badge ${application.status === "Pending" ? 'bg-warning' : application.status === "Interview Scheduled" ? 'bg-info' : 'bg-danger'}`}>
-                    {application.status}
-                  </p>
+        {loading ? (
+          <p>Loading applications...</p>
+        ) : error ? (
+          <div className="alert alert-danger">{error}</div>
+        ) : applications.length === 0 ? (
+          <div className="alert alert-info">No applications found.</div>
+        ) : (
+          <div className="row">
+            {applications.map((application) => (
+              <div key={application._id} className="col-md-4 mb-4">
+                <div
+                  className="card"
+                  style={{
+                    borderRadius: "15px",
+                    boxShadow: "0 0 20px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <div className="card-body">
+                    <h5 className="card-title">{application.jobTitle}</h5>
+                    <p className="card-text">
+                      <strong>Company:</strong> {application.company}
+                    </p>
+                    <p className="card-text">
+                      <FaCalendarAlt className="me-2" />{" "}
+                      <strong>Applied on:</strong>{" "}
+                      {new Date(application.createdAt).toLocaleDateString()}
+                    </p>
+                    <p
+                      className={`badge ${
+                        application.applicationStatus === "applied"
+                          ? "bg-success"
+                          : application.applicationStatus === "rejected"
+                          ? "bg-danger"
+                          : "bg-warning"
+                      }`}
+                    >
+                      {application.applicationStatus}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
       <Footer />
     </div>

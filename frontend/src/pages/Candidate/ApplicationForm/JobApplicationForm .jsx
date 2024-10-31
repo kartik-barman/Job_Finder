@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import NavBar from "../../../components/NavBar";
 import { useParams } from "react-router-dom";
@@ -6,10 +6,25 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const JobApplicationForm = () => {
+  const [job, setJob] = useState(null);
   const { id } = useParams();
-  console.log("Job Id : ", id);
   const applicantId = localStorage.getItem("userId");
-  console.log("Applicant Id : ", applicantId);
+
+  useEffect(() => {
+    const getJobDetails = async () => {
+      try {
+        const res = await axios.get(`https://job-finder-one.vercel.app/api/jobs/${id}`);
+        const result = res.data;
+        setJob(result.job);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    getJobDetails();
+  }, [id]);
+
+  console.log(job);
+
   const [formData, setFormData] = useState({
     applicantName: "",
     fatherMotherName: "",
@@ -39,7 +54,6 @@ const JobApplicationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create a new FormData instance to handle multipart form data
     const data = new FormData();
     data.append("jobId", id);
     data.append("applicantId", applicantId);
@@ -51,18 +65,15 @@ const JobApplicationForm = () => {
     data.append("degree", formData.degree);
     data.append("address", formData.address);
     data.append("resume", formData.resume);
+    data.append("jobTitle", job.title);
+    data.append("company", job.company);
 
-    console.log(data);
     try {
-      const response = await axios.post(
-        "https://job-finder-one.vercel.app/api/job/application/post-job",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post("http://localhost:5000/api/job/application/post-job", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(response.data);
       toast.success("Application submitted successfully!");
       setFormData({
@@ -95,13 +106,14 @@ const JobApplicationForm = () => {
           top: "0",
           zIndex: "1000",
           height: "72px",
-          backgroundColor : "#fffff",
+          backgroundColor: "#fff",
           boxShadow: "0 1px 3px 0 rgba(0,0,0,.15)",
-          marginBottom: "2px"
+          marginBottom: "2px",
         }}
       >
         <NavBar />
       </div>
+      {/* Job Application Form */}
       <div
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -113,13 +125,10 @@ const JobApplicationForm = () => {
       >
         <h2 className="text-center mb-4">Job Application Form</h2>
         <form onSubmit={handleSubmit} style={{ margin: "10px" }}>
-          {/* Personal Information Section */}
           <h4>Personal Information</h4>
           <div className="row mb-3">
             <div className="col-md-6">
-              <label htmlFor="applicantName" className="form-label">
-                Name
-              </label>
+              <label htmlFor="applicantName" className="form-label">Name</label>
               <input
                 type="text"
                 id="applicantName"
@@ -133,14 +142,11 @@ const JobApplicationForm = () => {
                   padding: "10px",
                   borderRadius: "4px",
                   border: "1px solid #ced4da",
-                  boxShadow: "none",
                 }}
               />
             </div>
             <div className="col-md-6">
-              <label htmlFor="fatherMotherName" className="form-label">
-                Father/Mother Name
-              </label>
+              <label htmlFor="fatherMotherName" className="form-label">Father/Mother Name</label>
               <input
                 type="text"
                 id="fatherMotherName"
@@ -154,7 +160,6 @@ const JobApplicationForm = () => {
                   padding: "10px",
                   borderRadius: "4px",
                   border: "1px solid #ced4da",
-                  boxShadow: "none",
                 }}
               />
             </div>
@@ -162,9 +167,7 @@ const JobApplicationForm = () => {
 
           <div className="row mb-3">
             <div className="col-md-6">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
+              <label htmlFor="email" className="form-label">Email</label>
               <input
                 type="email"
                 id="email"
@@ -178,14 +181,11 @@ const JobApplicationForm = () => {
                   padding: "10px",
                   borderRadius: "4px",
                   border: "1px solid #ced4da",
-                  boxShadow: "none",
                 }}
               />
             </div>
             <div className="col-md-6">
-              <label htmlFor="phone" className="form-label">
-                Phone Number
-              </label>
+              <label htmlFor="phone" className="form-label">Phone Number</label>
               <input
                 type="tel"
                 id="phone"
@@ -199,19 +199,15 @@ const JobApplicationForm = () => {
                   padding: "10px",
                   borderRadius: "4px",
                   border: "1px solid #ced4da",
-                  boxShadow: "none",
                 }}
               />
             </div>
           </div>
 
-          {/* College Information Section */}
           <h4>College Information</h4>
           <div className="row mb-3">
             <div className="col-md-6">
-              <label htmlFor="collegeName" className="form-label">
-                College Name
-              </label>
+              <label htmlFor="collegeName" className="form-label">College Name</label>
               <input
                 type="text"
                 id="collegeName"
@@ -225,14 +221,11 @@ const JobApplicationForm = () => {
                   padding: "10px",
                   borderRadius: "4px",
                   border: "1px solid #ced4da",
-                  boxShadow: "none",
                 }}
               />
             </div>
             <div className="col-md-6">
-              <label htmlFor="degree" className="form-label">
-                Degree
-              </label>
+              <label htmlFor="degree" className="form-label">Degree</label>
               <input
                 type="text"
                 id="degree"
@@ -246,18 +239,14 @@ const JobApplicationForm = () => {
                   padding: "10px",
                   borderRadius: "4px",
                   border: "1px solid #ced4da",
-                  boxShadow: "none",
                 }}
               />
             </div>
           </div>
 
-          {/* Address Section */}
           <h4>Address</h4>
           <div className="mb-3">
-            <label htmlFor="address" className="form-label">
-              Address
-            </label>
+            <label htmlFor="address" className="form-label">Address</label>
             <textarea
               id="address"
               name="address"
@@ -270,21 +259,18 @@ const JobApplicationForm = () => {
                 padding: "10px",
                 borderRadius: "4px",
                 border: "1px solid #ced4da",
-                boxShadow: "none",
                 height: "100px",
               }}
             />
           </div>
 
-          {/* Resume Upload Section */}
+          <h4>Resume</h4>
           <div className="mb-3">
-            <label htmlFor="resume" className="form-label">
-              Upload Resume
-            </label>
+            <label htmlFor="resume" className="form-label">Resume</label>
             <input
               type="file"
               id="resume"
-              accept=".pdf, .doc, .docx"
+              name="resume"
               onChange={handleResumeChange}
               required
               style={{
@@ -292,25 +278,14 @@ const JobApplicationForm = () => {
                 padding: "10px",
                 borderRadius: "4px",
                 border: "1px solid #ced4da",
-                boxShadow: "none",
               }}
             />
           </div>
 
-          <button type="submit" className="btn btn-success w-100">
-            Submit Application
-          </button>
+          <button type="submit" style={{ padding: "10px 20px", backgroundColor: "#007bff", color: "#fff", borderRadius: "4px", border: "none" }}>Submit Application</button>
         </form>
       </div>
-      <ToastContainer
-        position="top-center" 
-        autoClose={2000} 
-        hideProgressBar={false} 
-        newestOnTop={true} 
-        closeOnClick 
-        pauseOnHover 
-        draggable 
-      />
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover draggable />
     </div>
   );
 };
