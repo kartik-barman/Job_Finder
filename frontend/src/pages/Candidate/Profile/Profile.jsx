@@ -18,7 +18,7 @@ const Profile = () => {
     const getApplications = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/job/application/candidate/application/${userId}`
+          `https://job-finder-one.vercel.app/api/job/application/candidate/application/${userId}`
         );
         const result = res.data;
         console.log("API Response: ", result);
