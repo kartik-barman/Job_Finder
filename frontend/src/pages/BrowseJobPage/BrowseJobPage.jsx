@@ -11,6 +11,7 @@ import {
   FaTimes
 } from 'react-icons/fa';
 import { useJobContext } from '../../store/JobContext';
+import { Link } from 'react-router-dom';
 
 const BrowseJobPage = () => {
   const { jobs = [], setJobs } = useJobContext(); // Set default value to []
@@ -63,6 +64,7 @@ const BrowseJobPage = () => {
   };
 
   return (
+    <>
     <div className="bg-light min-vh-100 py-5">
       <div className="container">
         <div className="row">
@@ -167,7 +169,7 @@ const BrowseJobPage = () => {
                           <h5 className="card-title mb-1">{job.title}</h5>
                           <p className="text-muted mb-2">{job.company}</p>
                         </div>
-                        <button 
+                        {/* <button 
                           className="btn btn-link p-0"
                           onClick={() => toggleSaveJob(job._id)}
                         >
@@ -176,7 +178,7 @@ const BrowseJobPage = () => {
                           ) : (
                             <FaRegBookmark className="text-muted" />
                           )}
-                        </button>
+                        </button> */}
                       </div>
                       <div className="d-flex flex-wrap gap-3 mb-3">
                         <span className="text-muted small">
@@ -191,7 +193,7 @@ const BrowseJobPage = () => {
                           ₹
                           {job.salary.min} - {job.salary.max} {job.salary.currency}
                         </span>
-                        <span className="text-muted small">
+                        <span className="small" style={{padding : "2px 4px",color : "#008bdc", backgroundColor :"#eafcff", borderRadius : "5px"}}>
                           <FaRegClock className="me-1" />
                           {timeSince(job.createdAt)}
                         </span>
@@ -208,9 +210,9 @@ const BrowseJobPage = () => {
                       </div>
                     </div>
                     <div className="col-auto">
-                      <button className="btn btn-outline-success">
+                      <Link to={`/job/details/${job._id}`} className="btn btn-success">
                         Apply Now
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -235,6 +237,7 @@ const BrowseJobPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

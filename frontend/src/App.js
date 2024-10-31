@@ -12,6 +12,7 @@ import Dashboard from "./pages/Employer/Dashboard/Dashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.js";
 import JobApplicationForm from "./pages/Candidate/ApplicationForm/JobApplicationForm .jsx";
 import ApplicantDetails from "./pages/Employer/Applicant/ApplicantDetails.jsx";
+import JobDetailPage from "./pages/BrowseJobPage/JobDetailPage .jsx";
 
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/job/:id" element={<JobDetails />} />
+          <Route path="/job/details/:id" element={ <JobDetailPage /> } />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
           <Route
