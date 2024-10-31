@@ -10,7 +10,6 @@
   "author": "Kartik Barman",
   "license": "ISC",
   "description": "Finding job portal",
-  "proxy": "https://job-finder-one.vercel.app",
   "dependencies": {
     "backend": "file:",
     "bcryptjs": "^2.4.3",

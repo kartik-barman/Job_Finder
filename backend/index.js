@@ -15,12 +15,7 @@ app.get("/", (req, res)=>{
     res.status(200).send("Your Server is working Successfully!.............")
 })
 
-app.use(cors({
-    origin: ["http://localhost:3000", "https://your-frontend-url.com"],
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization"
-  }));
-  
+app.use(cors());
 app.use(bodyParser.json())
 
 // Job Endpoint
