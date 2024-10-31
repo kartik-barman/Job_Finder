@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 const NavBar = () => {
   const { isLoggedIn, setIsLoggedIn, userRole, setUserRole } = useJobContext();
   const navigate = useNavigate();
+  const username = localStorage.getItem("username")
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
@@ -38,7 +39,7 @@ const NavBar = () => {
 
   const handlePostJobClick = () => {
     if (!isLoggedIn) {
-      toast.info("Please log in to post a job. Only Employer post a job");
+      toast.info("Please log in to post a job. Only Employer can post a job");
       setTimeout(() => {
         navigate("/login");
       }, 2000);
@@ -48,8 +49,17 @@ const NavBar = () => {
   };
 
   return (
-    <div className="" >
-      <nav className="navbar navbar-expand-lg navbar-dark py-3">
+    <div>
+      <nav
+        className="navbar navbar-expand-lg navbar-dark py-3"
+        style={{
+          position: "sticky",  
+          top: "0",             
+          zIndex: "1000",      
+          backgroundColor: "#343a40", 
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)", 
+        }}
+      >
         <div className="container">
           {/* Brand Logo Section */}
           <Link to="/" className="navbar-brand d-flex align-items-center">
@@ -117,7 +127,7 @@ const NavBar = () => {
                   )}
                   {userRole === "candidate" && (
                     <Link
-                      to="/candidate/profile"
+                      to={`/candidate/profile/${username}`}
                       className="btn btn-info text-white d-flex align-items-center gap-2 px-3"
                     >
                       <FaUser />

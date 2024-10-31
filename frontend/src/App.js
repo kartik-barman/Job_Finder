@@ -7,12 +7,13 @@ import { JobsProvider } from "./store/JobContext.js";
 import LogIn from "./pages/Auth/LogIn.jsx";
 import SignUp from "./pages/Auth/SignUp.jsx";
 import JobForm from "./components/JobForm.jsx";
-import UserProfile from "./pages/Candidate/Profile/UserProfile.jsx";
 import Dashboard from "./pages/Employer/Dashboard/Dashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.js";
 import JobApplicationForm from "./pages/Candidate/ApplicationForm/JobApplicationForm .jsx";
 import ApplicantDetails from "./pages/Employer/Applicant/ApplicantDetails.jsx";
 import JobDetailPage from "./pages/BrowseJobPage/JobDetailPage .jsx";
+import Profile from "./pages/Candidate/Profile/Profile.jsx";
+
 
 
 const App = () => {
@@ -34,10 +35,10 @@ const App = () => {
             }
           />
           <Route
-            path="/user/profile"
+            path="/candidate/profile/:username"
             element={
               <ProtectedRoute>
-                <UserProfile />
+                <Profile />
               </ProtectedRoute>
             }
           />

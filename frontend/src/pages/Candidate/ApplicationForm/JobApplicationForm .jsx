@@ -94,7 +94,10 @@ const JobApplicationForm = () => {
           position: "sticky",
           top: "0",
           zIndex: "1000",
-          backgroundColor: "rgb(204 57 232)",
+          height: "72px",
+          backgroundColor : "#fffff",
+          boxShadow: "0 1px 3px 0 rgba(0,0,0,.15)",
+          marginBottom: "2px"
         }}
       >
         <NavBar />
@@ -299,7 +302,15 @@ const JobApplicationForm = () => {
           </button>
         </form>
       </div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center" 
+        autoClose={2000} 
+        hideProgressBar={false} 
+        newestOnTop={true} 
+        closeOnClick 
+        pauseOnHover 
+        draggable 
+      />
     </div>
   );
 };

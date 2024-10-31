@@ -6,6 +6,7 @@ import JobList from "./Jobs/JobList";
 import Footer from "../components/Footer";
 import BrowseJobPage from "./BrowseJobPage/BrowseJobPage";
 
+
 const Home = () => {
   const [gradient, setGradient] = useState("");
 
@@ -29,7 +30,19 @@ const Home = () => {
           background: gradient, // Set the generated gradient
         }}
       >
+         <div
+        style={{
+          position: "sticky",
+          top: "0",
+          zIndex: "1000",
+          height: "72px",
+          backgroundColor : "red",
+          boxShadow: "0 1px 3px 0 rgba(0,0,0,.15)",
+          marginBottom: "2px"
+        }}
+      >
         <NavBar />
+      </div>
         <div>
           <div className="container mt-5">
             <div className="row">
