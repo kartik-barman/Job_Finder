@@ -56,7 +56,7 @@ const NavBar = () => {
           position: "sticky",  
           top: "0",             
           zIndex: "1000",      
-          backgroundColor: "#343a40", 
+          backgroundColor: "#2a2a2a", 
           boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)", 
         }}
       >

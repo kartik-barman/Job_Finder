@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/userModel.js";
+import { sendMail } from "../mailSender/sendMail.js";
 
 /**____________________________________________________________________*
  *                                                                     *
@@ -29,7 +30,15 @@ export const createUserApi = async (req, res) => {
     });
 
     const saveUser = await newUser.save();
-
+    await sendMail(
+      email,
+      "Welcome to Job Finder",
+      `Hi ${username}, thank you for joining our community!`,
+      `<h1>Welcome to Job Finder!</h1>
+       <p>Hi ${username},</p>
+       <p>Thank you for joining our community! We're thrilled to have you on board. <br><br>
+       <strong>Kartik Barman</strong><br>Founder, Job Finder</p>`
+    );
     res.status(201).json({
       success: true,
       msg: "User registered successfully!",
