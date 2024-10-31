@@ -13,7 +13,9 @@ const JobApplicationForm = () => {
   useEffect(() => {
     const getJobDetails = async () => {
       try {
-        const res = await axios.get(`https://job-finder-one.vercel.app/api/jobs/${id}`);
+        const res = await axios.get(
+          `https://job-finder-one.vercel.app/api/jobs/${id}`
+        );
         const result = res.data;
         setJob(result.job);
       } catch (error) {
@@ -33,7 +35,7 @@ const JobApplicationForm = () => {
     collegeName: "",
     degree: "",
     address: "",
-    resume: null,
+    resume: null, // Keep resume in state but won't send it
   });
 
   const handleChange = (e) => {
@@ -47,33 +49,37 @@ const JobApplicationForm = () => {
   const handleResumeChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
-      resume: e.target.files[0],
+      resume: e.target.files[0], // Store the resume in state
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = new FormData();
-    data.append("jobId", id);
-    data.append("applicantId", applicantId);
-    data.append("applicantName", formData.applicantName);
-    data.append("fatherMotherName", formData.fatherMotherName);
-    data.append("email", formData.email);
-    data.append("phone", formData.phone);
-    data.append("collegeName", formData.collegeName);
-    data.append("degree", formData.degree);
-    data.append("address", formData.address);
-    data.append("resume", formData.resume);
-    data.append("jobTitle", job.title);
-    data.append("company", job.company);
+    const data = {
+      jobId: id,
+      applicantId: applicantId,
+      applicantName: formData.applicantName,
+      fatherMotherName: formData.fatherMotherName,
+      email: formData.email,
+      phone: formData.phone,
+      collegeName: formData.collegeName,
+      degree: formData.degree,
+      address: formData.address,
+      jobTitle: job.title,
+      company: job.company,
+    };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/job/application/post-job", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "https://job-finder-one.vercel.app/api/job/application/post-job",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json", // Set the content type to JSON
+          },
+        }
+      );
       console.log(response.data);
       toast.success("Application submitted successfully!");
       setFormData({
@@ -84,7 +90,7 @@ const JobApplicationForm = () => {
         collegeName: "",
         degree: "",
         address: "",
-        resume: null,
+        resume: null, // Reset resume state
       });
     } catch (error) {
       console.error("Error uploading application:", error);
@@ -128,7 +134,9 @@ const JobApplicationForm = () => {
           <h4>Personal Information</h4>
           <div className="row mb-3">
             <div className="col-md-6">
-              <label htmlFor="applicantName" className="form-label">Name</label>
+              <label htmlFor="applicantName" className="form-label">
+                Name
+              </label>
               <input
                 type="text"
                 id="applicantName"
@@ -146,7 +154,9 @@ const JobApplicationForm = () => {
               />
             </div>
             <div className="col-md-6">
-              <label htmlFor="fatherMotherName" className="form-label">Father/Mother Name</label>
+              <label htmlFor="fatherMotherName" className="form-label">
+                Father/Mother Name
+              </label>
               <input
                 type="text"
                 id="fatherMotherName"
@@ -167,7 +177,9 @@ const JobApplicationForm = () => {
 
           <div className="row mb-3">
             <div className="col-md-6">
-              <label htmlFor="email" className="form-label">Email</label>
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
@@ -185,7 +197,9 @@ const JobApplicationForm = () => {
               />
             </div>
             <div className="col-md-6">
-              <label htmlFor="phone" className="form-label">Phone Number</label>
+              <label htmlFor="phone" className="form-label">
+                Phone Number
+              </label>
               <input
                 type="tel"
                 id="phone"
@@ -207,7 +221,9 @@ const JobApplicationForm = () => {
           <h4>College Information</h4>
           <div className="row mb-3">
             <div className="col-md-6">
-              <label htmlFor="collegeName" className="form-label">College Name</label>
+              <label htmlFor="collegeName" className="form-label">
+                College Name
+              </label>
               <input
                 type="text"
                 id="collegeName"
@@ -225,7 +241,9 @@ const JobApplicationForm = () => {
               />
             </div>
             <div className="col-md-6">
-              <label htmlFor="degree" className="form-label">Degree</label>
+              <label htmlFor="degree" className="form-label">
+                Degree
+              </label>
               <input
                 type="text"
                 id="degree"
@@ -246,7 +264,9 @@ const JobApplicationForm = () => {
 
           <h4>Address</h4>
           <div className="mb-3">
-            <label htmlFor="address" className="form-label">Address</label>
+            <label htmlFor="address" className="form-label">
+              Address
+            </label>
             <textarea
               id="address"
               name="address"
@@ -266,7 +286,9 @@ const JobApplicationForm = () => {
 
           <h4>Resume</h4>
           <div className="mb-3">
-            <label htmlFor="resume" className="form-label">Resume</label>
+            <label htmlFor="resume" className="form-label">
+              Resume
+            </label>
             <input
               type="file"
               id="resume"
@@ -282,10 +304,21 @@ const JobApplicationForm = () => {
             />
           </div>
 
-          <button type="submit" style={{ padding: "10px 20px", backgroundColor: "#007bff", color: "#fff", borderRadius: "4px", border: "none" }}>Submit Application</button>
+          <button
+            type="submit"
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#6a11cb",
+              color: "#fff",
+              border: "none",
+              borderRadius: "4px",
+            }}
+          >
+            Submit Application
+          </button>
         </form>
       </div>
-      <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} newestOnTop closeOnClick pauseOnHover draggable />
+      <ToastContainer />
     </div>
   );
 };

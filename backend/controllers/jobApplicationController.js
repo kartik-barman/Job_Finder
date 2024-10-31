@@ -16,15 +16,15 @@ export const applyJobApi = async (req, res) => {
   } = req.body;
 
   // Get the resume file info
-  const resume = req.file; // Multer adds the file to req.file
+  // const resume = req.file; // Multer adds the file to req.file
 
   // Check if the resume was uploaded
-  if (!resume) {
-    return res.status(400).json({
-      success: false,
-      msg: "Resume is required!",
-    });
-  }
+  // if (!resume) {
+  //   return res.status(400).json({
+  //     success: false,
+  //     msg: "Resume is required!",
+  //   });
+  // }
 
   try {
     // Check if the email has already been used for this job
@@ -48,7 +48,7 @@ export const applyJobApi = async (req, res) => {
       collegeName,
       degree,
       address,
-      resume: resume.path, // Store the file path in the application
+      // resume: resume.path, // Store the file path in the application
       jobId,
       applicationStatus: "applied", // Initial status for the application
     });

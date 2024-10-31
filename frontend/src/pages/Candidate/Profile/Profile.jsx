@@ -10,7 +10,7 @@ const Profile = () => {
   const username = localStorage.getItem("username");
   const email = localStorage.getItem("email");
 
-  const [applications, setApplications] = useState([]); // State for applications
+  const [applications, setApplications] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -23,9 +23,9 @@ const Profile = () => {
         const result = res.data;
         console.log("API Response: ", result);
         if (result.success) {
-          setApplications(result.application); // Set applications to the response array
+          setApplications(result.application); 
         } else {
-          setError(result.msg); // Set error to the response message
+          setError(result.msg); 
         }
       } catch (error) {
         console.error("Error fetching applications: ", error);
