@@ -6,20 +6,31 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
-    role: "candidate",
+    role: "",
   });
 
   // Handle form submission
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = JSON.stringify(formData);
-    console.log("Form Data:", data);
+    setLoading(true);
+    // Check for empty fields
+    if (
+      !formData.username ||
+      !formData.email ||
+      !formData.password ||
+      !formData.role
+    ) {
+      toast.info("All fields are required.");4` `
+      setLoading(false);
+      return; 
+    }
+    console.log("Form Data:", formData);
 
     try {
       const res = await axios.post(
@@ -31,17 +42,21 @@ const SignUp = () => {
       const { success, msg } = result;
       if (success) {
         toast.success(msg);
-        setTimeout(()=>{
-          navigate("/login")
-        },2000)
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       }
       setFormData({
         username: "",
         email: "",
         password: "",
+        role: "",
       });
     } catch (error) {
       console.error(error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,13 +72,13 @@ const SignUp = () => {
   return (
     <>
       <ToastContainer
-        position="top-center" 
-        autoClose={2000} 
-        hideProgressBar={false} 
-        newestOnTop={true} 
-        closeOnClick 
-        pauseOnHover 
-        draggable 
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnHover
+        draggable
       />
 
       <div
@@ -182,8 +197,8 @@ const SignUp = () => {
             {/* User Type Select */}
             <div className="mb-4">
               <select
-                name="userType"
-                value={formData.userType}
+                name="role"
+                value={formData.role}
                 onChange={handleChange}
                 style={{
                   width: "100%",
@@ -194,7 +209,11 @@ const SignUp = () => {
                   outline: "none",
                   boxShadow: "inset 0 1px 3px rgba(0,0,0,0.12)",
                 }}
+                required
               >
+                <option value="" disabled>
+                  Select User Role
+                </option>
                 <option value="candidate">Candidate</option>
                 <option value="employer">Employer</option>
               </select>
@@ -211,7 +230,17 @@ const SignUp = () => {
                 borderRadius: "5px",
               }}
             >
-              Sign Up
+              {loading ? (
+                <span className="badge bg-primary">
+                  <span
+                    className="spinner-border spinner-border-sm text-light"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                </span>
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </form>
         </div>

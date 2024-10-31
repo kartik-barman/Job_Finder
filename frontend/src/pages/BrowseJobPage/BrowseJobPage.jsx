@@ -161,18 +161,6 @@ const BrowseJobPage = () => {
               <div className="card border-0 shadow-sm mb-4 hover-shadow" key={job._id} style={{ transition: 'all 0.3s' }}>
                 <div className="card-body p-4">
                   <div className="row align-items-center">
-                    <div className="col-auto">
-                      <div 
-                        className="rounded-3 p-3 bg-light"
-                        style={{ width: '80px', height: '80px' }}
-                      >
-                        <img 
-                          src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
-                          alt="Company Logo"
-                          className="img-fluid"
-                        />
-                      </div>
-                    </div>
                     <div className="col">
                       <div className="d-flex justify-content-between align-items-start">
                         <div>
@@ -200,7 +188,7 @@ const BrowseJobPage = () => {
                           {job.type}
                         </span>
                         <span className="text-muted small">
-                          <FaDollarSign className="me-1" />
+                          ₹
                           {job.salary.min} - {job.salary.max} {job.salary.currency}
                         </span>
                         <span className="text-muted small">

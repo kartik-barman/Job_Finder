@@ -13,7 +13,7 @@ const LogIn = () => {
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false); // State for loading
+  const [loading, setLoading] = useState(false); 
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -23,11 +23,11 @@ const LogIn = () => {
       return;
     }
 
-    setLoading(true); // Start loading
+    setLoading(true); 
 
     try {
       const res = await axiosInstance.post("https://job-finder-one.vercel.app/api/users/login ", formData);
-      const { success, msg, user, token } = res.data; // Assuming user object contains username, email, and user ID
+      const { success, msg, user, token } = res.data; 
       console.log("msg : ", msg);
       console.log("user " , user);
       console.log("token :" , token);
@@ -42,7 +42,7 @@ const LogIn = () => {
 
         setIsLoggedIn(true);
         setUserRole(user.role);
-        toast.success(msg); // Success message
+        toast.success(msg); 
         setTimeout(() => {
           navigate("/");
         }, 2000);
@@ -50,9 +50,9 @@ const LogIn = () => {
         toast.error(msg);
       }
     } catch (error) {
-      toast.error("An error occurred. Please try again."); // General error message
+      toast.error("An error occurred. Please try again."); 
     } finally {
-      setLoading(false); // End loading
+      setLoading(false); 
     }
 
     // Clear form data
@@ -80,7 +80,15 @@ const LogIn = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center" 
+        autoClose={2000} 
+        hideProgressBar={false} 
+        newestOnTop={true} 
+        closeOnClick 
+        pauseOnHover 
+        draggable 
+      />
     <div
       className="min-vh-100 d-flex justify-content-center align-items-center"
       style={{
