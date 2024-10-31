@@ -28,7 +28,7 @@ Founder, Job Finder`;
   `;
 
   const info = await transporter.sendMail({
-    from: "gkkartik2nd@gmail.com",
+    from: '"Job Finder" <gkkartik2nd@gmail.com>',
     to,
     subject: "Job Application Received - Job Finder",
     text,

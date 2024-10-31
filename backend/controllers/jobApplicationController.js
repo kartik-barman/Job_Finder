@@ -56,7 +56,7 @@ export const applyJobApi = async (req, res) => {
 
     const saveApplication = await newApplication.save();
 
-    sendApplicationEmail(email, applicantName, jobTitle, company)
+    await sendApplicationEmail(email, applicantName, jobTitle, company)
 
     res.status(201).json({
       success: true,
