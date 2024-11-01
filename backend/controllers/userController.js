@@ -107,3 +107,23 @@ export const userLoginApi = async (req, res) => {
     });
   }
 };
+
+
+// Fetch All User
+
+export const fethcUsersApi = async (req, res)=> {
+  try {
+    const users = await User.find({});
+    res.status(200).json({
+      success : true,
+      msg : "Fetch all users...",
+      users
+    })
+  } catch (error) {
+    console.error("Errors : ", error);
+    res.status(500).json({
+      success : false,
+      msg : "internal server error!"
+    })
+  }
+}

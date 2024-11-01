@@ -17,7 +17,7 @@ const JobForm = () => {
     salary: {
       min: "",
       max: "",
-      currency: "USD",
+      currency: "INR",
     },
     type: "full-time",
     employer: userId,

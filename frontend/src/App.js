@@ -13,6 +13,7 @@ import JobApplicationForm from "./pages/Candidate/ApplicationForm/JobApplication
 import ApplicantDetails from "./pages/Employer/Applicant/ApplicantDetails.jsx";
 import JobDetailPage from "./pages/BrowseJobPage/JobDetailPage .jsx";
 import Profile from "./pages/Candidate/Profile/Profile.jsx";
+import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard.jsx";
 
 
 
@@ -61,6 +62,14 @@ const App = () => {
               <ApplicantDetails />
             </ProtectedRoute>
           }>
+          </Route>
+          {/* Admin Route */}
+          <Route path="/admin/dashboard" element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }>
+
           </Route>
         </Routes>
       </Router>

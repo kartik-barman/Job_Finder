@@ -21,59 +21,130 @@ const Dashboard = () => {
     }
   };
 
+  const deletJob = async (id) => {
+    try {
+      const res = await axios.delete(
+        `https://job-finder-one.vercel.app/api/jobs/delete-job/${id}`
+      );
+      const result = res.data;
+      console.log(result);
+      fetchAllJobs();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchAllJobs();
   }, [employerId]);
 
   return (
-    <div style={{ minHeight: "100vh" }}>
-      <div style={{ backgroundColor: "rgb(204 57 232)" }}>
-        <NavBar />
-      </div>
-      <div className="container my-4">
-        <h2 className="text-center mb-4">Employer Dashboard</h2>
+    <>
+      <NavBar />
+      <div style={{ padding: "2rem" }}>
+        {/* Dashboard Header */}
+        <header
+          style={{
+            backgroundColor: "#343a40",
+            color: "#fff",
+            padding: "1rem 2rem",
+            borderRadius: "8px",
+            marginBottom: "1.5rem",
+            textAlign: "center",
+          }}
+        >
+          <h1 style={{ margin: 0, fontSize: "1.5rem" }}>Employer Dashboard</h1>
+        </header>
 
-        <table className="table table-striped table-bordered table-hover">
-          <thead className="thead-dark">
-            <tr>
-              <th>SL</th>
-              <th>Job Title</th>
-              <th>Type</th>
-              <th>Salary</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jobs.length > 0 ? (
-              jobs.map((job, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>
-                    <Link to={`/employer/${job._id}/candidates`}>
-                      {job.title}
+        {/* Users Table */}
+        <div style={{ overflowX: "auto" }}>
+          <table
+            className="table table-striped table-bordered table-hover"
+            style={{
+              borderRadius: "8px",
+              border: "1px solid #dee2e6",
+              marginBottom: 0,
+            }}
+          >
+            <thead
+              style={{
+                backgroundColor: "#f8f9fa",
+                color: "#495057",
+                fontWeight: "bold",
+              }}
+            >
+              <tr>
+                <th style={{ minWidth: "100px", textAlign: "center" }}>
+                  Sl No
+                </th>
+                <th style={{ minWidth: "200px", textAlign: "center" }}>Job Title</th>
+                <th style={{ minWidth: "250px", textAlign: "center" }}>
+                  Type
+                </th>
+                <th style={{ minWidth: "150px", textAlign: "center" }}>Salary</th>
+                <th style={{ minWidth: "150px", textAlign: "center" }}>
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {jobs.map((job, index) => (
+                <tr key={job.id}>
+                  <td style={{ textAlign: "center" }}>{index + 1}</td>
+                  <td style={{textAlign : "center"}}>
+                    <Link to={`/employer/${job._id}/candidates`} className="text-decoration-none">
+                    {job.title}
                     </Link>
-                  </td>
-                  <td>{job.type}</td>
-                  <td>
-                    ₹{job.salary.min}-{job.salary.max}
-                  </td>
-                  <td>
-                    <button className="btn btn-primary me-2"><FaEdit /></button>
-                    <button className="btn btn-danger"><FaTrash /></button>
+                    </td>
+                  <td style={{textAlign : "center"}}>{job.type}</td>
+                  <td style={{ textAlign: "center" }}>₹{""}{job.salary.min}-{job.salary.max}</td>
+                  <td style={{ textAlign: "center" }}>
+                    <button
+                      style={{
+                        backgroundColor: "#ffc107",
+                        border: "none",
+                        color: "#fff",
+                        padding: "0.25rem 0.75rem",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        marginRight: "0.5rem",
+                        transition: "background-color 0.3s",
+                      }}
+                      onClick={() => console.log(`Edit ${job.title}`)}
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      style={{
+                        backgroundColor: "#dc3545",
+                        border: "none",
+                        color: "#fff",
+                        padding: "0.25rem 0.75rem",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        transition: "background-color 0.3s",
+                      }}
+                      onClick={() => deletJob(job._id)}
+                    >
+                      <FaTrash />
+                    </button>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="text-center">
-                  No jobs found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* No Users Message */}
+        {jobs.length === 0 && (
+          <div
+            style={{ textAlign: "center", marginTop: "1rem", color: "#6c757d" }}
+          >
+            No users found.
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
