@@ -27,7 +27,7 @@ const UpdateJob = () => {
   useEffect(() => {
     const fetchJobData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/jobs/${jobId}`);
+        const res = await axios.get(`https://job-finder-one.vercel.app/api/jobs/${jobId}`);
         setFormData(res.data.job);
       } catch (error) {
         toast.error("Failed to load job data.");
@@ -43,7 +43,7 @@ const UpdateJob = () => {
     setIsSubmitting(true);
     try {
       await axios.put(
-        `http://localhost:5000/api/jobs/edit-job/${jobId}`,
+        `https://job-finder-one.vercel.app/api/jobs/edit-job/${jobId}`,
         formData
       );
       toast.success("Job updated successfully!");
