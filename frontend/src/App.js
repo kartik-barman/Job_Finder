@@ -14,6 +14,7 @@ import ApplicantDetails from "./pages/Employer/Applicant/ApplicantDetails.jsx";
 import JobDetailPage from "./pages/BrowseJobPage/JobDetailPage .jsx";
 import Profile from "./pages/Candidate/Profile/Profile.jsx";
 import AdminDashboard from "./pages/Admin/Dashboard/AdminDashboard.jsx";
+import UpdateJob from "./pages/Employer/UpdateJob.jsx";
 
 
 
@@ -32,6 +33,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <JobForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit/:jobId"
+            element={
+              <ProtectedRoute>
+                <UpdateJob />
               </ProtectedRoute>
             }
           />

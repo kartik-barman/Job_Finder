@@ -22,6 +22,8 @@ const Dashboard = () => {
   };
 
   const deletJob = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this job?");
+    if (!confirmed) return;
     try {
       const res = await axios.delete(
         `https://job-finder-one.vercel.app/api/jobs/delete-job/${id}`
@@ -77,11 +79,14 @@ const Dashboard = () => {
                 <th style={{ minWidth: "100px", textAlign: "center" }}>
                   Sl No
                 </th>
-                <th style={{ minWidth: "200px", textAlign: "center" }}>Job Title</th>
-                <th style={{ minWidth: "250px", textAlign: "center" }}>
-                  Type
+                <th style={{ minWidth: "200px", textAlign: "center" }}>
+                  Job Title
                 </th>
-                <th style={{ minWidth: "150px", textAlign: "center" }}>Salary</th>
+                <th>Post Date</th>
+                <th style={{ minWidth: "250px", textAlign: "center" }}>Type</th>
+                <th style={{ minWidth: "150px", textAlign: "center" }}>
+                  Salary
+                </th>
                 <th style={{ minWidth: "150px", textAlign: "center" }}>
                   Actions
                 </th>
@@ -89,17 +94,30 @@ const Dashboard = () => {
             </thead>
             <tbody>
               {jobs.map((job, index) => (
-                <tr key={job.id}>
+                <tr key={job._id}>
                   <td style={{ textAlign: "center" }}>{index + 1}</td>
-                  <td style={{textAlign : "center"}}>
-                    <Link to={`/employer/${job._id}/candidates`} className="text-decoration-none">
-                    {job.title}
-                    </Link>
-                    </td>
-                  <td style={{textAlign : "center"}}>{job.type}</td>
-                  <td style={{ textAlign: "center" }}>₹{""}{job.salary.min}-{job.salary.max}</td>
                   <td style={{ textAlign: "center" }}>
-                    <button
+                    <Link
+                      to={`/employer/${job._id}/candidates`}
+                      className="text-decoration-none"
+                    >
+                      {job.title}
+                    </Link>
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {new Date(job.createdAt).toLocaleDateString()}{" "}
+                    {new Date(job.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </td>
+                  <td style={{ textAlign: "center" }}>{job.type}</td>
+                  <td style={{ textAlign: "center" }}>
+                    ₹{""}
+                    {job.salary.min}-{job.salary.max}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    <Link to={`/edit/${job._id}`}
                       style={{
                         backgroundColor: "#ffc107",
                         border: "none",
@@ -110,10 +128,10 @@ const Dashboard = () => {
                         marginRight: "0.5rem",
                         transition: "background-color 0.3s",
                       }}
-                      onClick={() => console.log(`Edit ${job.title}`)}
+                      onClick={() => console.log(`Edit ${job._id}`)}
                     >
                       <FaEdit />
-                    </button>
+                    </Link>
                     <button
                       style={{
                         backgroundColor: "#dc3545",
