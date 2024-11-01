@@ -10,7 +10,7 @@ import { sendMail } from "../mailSender/sendMail.js";
  *                                                                     *
  *_____________________________________________________________________*/
 export const createUserApi = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email,mobile, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (user) {
@@ -24,6 +24,7 @@ export const createUserApi = async (req, res) => {
 
     const newUser = User({
       ...req.body,
+      mobile,
       username,
       email,
       password: hashPassword,
@@ -127,3 +128,36 @@ export const fethcUsersApi = async (req, res)=> {
     })
   }
 }
+
+/**______________________________________________________________________________*
+ *                                                                               *
+ *                      function to create  Delete user                          *
+ *                  http://localhost:5000/api/users/delete                       *
+ *                                                                               *
+ *_______________________________________________________________________________*/
+
+export const deleteUserApi = async (req, res) => {
+  const id = req.params.id; 
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(id);
+    
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        msg: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      msg: "User deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({
+      success: false,
+      msg: "Internal server error!",
+    });
+  }
+};

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaPhone } from "react-icons/fa"; // Added FaPhone icon
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -11,35 +11,27 @@ const SignUp = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
+    mobile: "",
     password: "",
     role: "",
   });
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Check for empty fields
-    if (
-      !formData.username ||
-      !formData.email ||
-      !formData.password ||
-      !formData.role
-    ) {
-      toast.info("All fields are required.");4` `
+
+    if (!formData.username || !formData.email || !formData.password || !formData.role) {
+      toast.info("All fields are required.");
       setLoading(false);
-      return; 
+      return;
     }
-    console.log("Form Data:", formData);
 
     try {
       const res = await axios.post(
         "https://job-finder-one.vercel.app/api/users/create",
         formData
       );
-      const result = res.data;
-      console.log(result);
-      const { success, msg } = result;
+      const { success, msg } = res.data;
       if (success) {
         toast.success(msg);
         setTimeout(() => {
@@ -49,6 +41,7 @@ const SignUp = () => {
       setFormData({
         username: "",
         email: "",
+        mobile: "",
         password: "",
         role: "",
       });
@@ -60,7 +53,6 @@ const SignUp = () => {
     }
   };
 
-  // Update form data based on input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -71,21 +63,11 @@ const SignUp = () => {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        pauseOnHover
-        draggable
-      />
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} />
 
       <div
         className="min-vh-100 d-flex justify-content-center align-items-center"
-        style={{
-          backgroundColor: "#f8f9fa",
-        }}
+        style={{ backgroundColor: "#f8f9fa" }}
       >
         <div
           className="card shadow p-4"
@@ -101,114 +83,65 @@ const SignUp = () => {
           </h3>
 
           <form onSubmit={handleSubmit}>
-            {/* Username Field */}
             <div className="mb-3 position-relative">
-              <FaUser
-                className="position-absolute"
-                style={{
-                  top: "50%",
-                  left: "10px",
-                  transform: "translateY(-50%)",
-                  color: "#007bff",
-                }}
-              />
+              <FaUser className="position-absolute" style={iconStyle} />
               <input
                 type="text"
                 name="username"
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
-                style={{
-                  paddingLeft: "40px",
-                  width: "100%",
-                  padding: "10px 30px",
-                  fontSize: "1rem",
-                  borderRadius: "5px",
-                  border: "1px solid #ced4da",
-                  outline: "none",
-                  boxShadow: "inset 0 1px 3px rgba(0,0,0,0.12)",
-                }}
+                style={inputStyle}
                 required
               />
             </div>
 
-            {/* Email Field */}
             <div className="mb-3 position-relative">
-              <FaEnvelope
-                className="position-absolute"
-                style={{
-                  top: "50%",
-                  left: "10px",
-                  transform: "translateY(-50%)",
-                  color: "#007bff",
-                }}
-              />
+              <FaEnvelope className="position-absolute" style={iconStyle} />
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                style={{
-                  paddingLeft: "40px",
-                  width: "100%",
-                  padding: "10px 30px",
-                  fontSize: "1rem",
-                  borderRadius: "5px",
-                  border: "1px solid #ced4da",
-                  outline: "none",
-                  boxShadow: "inset 0 1px 3px rgba(0,0,0,0.12)",
-                }}
+                style={inputStyle}
                 required
               />
             </div>
 
-            {/* Password Field */}
-            <div className="mb-4 position-relative">
-              <FaLock
-                className="position-absolute"
-                style={{
-                  top: "50%",
-                  left: "10px",
-                  transform: "translateY(-50%)",
-                  color: "#007bff",
-                }}
+            {/* Mobile Field with Phone Icon */}
+            <div className="mb-3 position-relative">
+              <FaPhone className="position-absolute" style={iconStyle} />
+              <input
+                type="number"
+                name="mobile"
+                placeholder="Mobile"
+                value={formData.mobile}
+                onChange={handleChange}
+                style={inputStyle}
+                required
               />
+            </div>
+
+            <div className="mb-4 position-relative">
+              <FaLock className="position-absolute" style={iconStyle} />
               <input
                 type="password"
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                style={{
-                  paddingLeft: "40px",
-                  width: "100%",
-                  padding: "10px 30px",
-                  fontSize: "1rem",
-                  borderRadius: "5px",
-                  border: "1px solid #ced4da",
-                  outline: "none",
-                  boxShadow: "inset 0 1px 3px rgba(0,0,0,0.12)",
-                }}
+                style={inputStyle}
                 required
               />
             </div>
 
-            {/* User Type Select */}
             <div className="mb-4">
               <select
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  fontSize: "1rem",
-                  borderRadius: "5px",
-                  border: "1px solid #ced4da",
-                  outline: "none",
-                  boxShadow: "inset 0 1px 3px rgba(0,0,0,0.12)",
-                }}
+                style={inputStyle}
                 required
               >
                 <option value="" disabled>
@@ -219,7 +152,6 @@ const SignUp = () => {
               </select>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="btn btn-primary w-100"
@@ -250,3 +182,22 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+// Styles
+const iconStyle = {
+  top: "50%",
+  left: "10px",
+  transform: "translateY(-50%)",
+  color: "#007bff",
+};
+
+const inputStyle = {
+  paddingLeft: "40px",
+  width: "100%",
+  padding: "10px 30px",
+  fontSize: "1rem",
+  borderRadius: "5px",
+  border: "1px solid #ced4da",
+  outline: "none",
+  boxShadow: "inset 0 1px 3px rgba(0,0,0,0.12)",
+};
