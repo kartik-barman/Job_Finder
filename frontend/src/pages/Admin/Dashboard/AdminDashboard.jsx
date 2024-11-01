@@ -64,6 +64,7 @@ const AdminDashboard = () => {
                 <th style={{ minWidth: "100px", textAlign: "center" }}>Sl No</th>
                 <th style={{ minWidth: "200px", textAlign: "center" }}>Name</th>
                 <th style={{ minWidth: "250px", textAlign: "center" }}>Email</th>
+                <th style={{ minWidth: "250px", textAlign: "center" }}>Phone</th>
                 <th style={{ minWidth: "150px", textAlign: "center" }}>Role</th>
                 <th style={{ minWidth: "150px", textAlign: "center" }}>Actions</th>
               </tr>
@@ -74,6 +75,7 @@ const AdminDashboard = () => {
                   <td style={{ textAlign: "center" }}>{index + 1}</td>
                   <td>{user.username}</td>
                   <td>{user.email}</td>
+                  <td style={{ textAlign: "center" }}>{user.mobile}</td>
                   <td style={{ textAlign: "center" }}>{user.role}</td>
                   <td style={{ textAlign: "center" }}>
                     <button
